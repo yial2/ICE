@@ -9,6 +9,9 @@
 
     <!-- Le styles -->
     <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+    <style type="text/css">
+        #map-canvas { height: 400px; }
+    </style>
 </head>
 
 <body>
@@ -57,6 +60,8 @@
             <h1>Health Happens Here!</h1>
             <p>Finding health within your neighborhood.</p>
             <p><a href="#" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+            <div id="map-canvas">
+            </div>
         </div>
 
         <!-- Example row of columns -->
@@ -90,8 +95,33 @@
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?key=AIzaSyAunBsjlTytY7pHdfo9w7cit4E659ODpAQ&sensor=true"></script>
+    <script type="text/javascript">
+        $(function () {
+            var mapOptions = {
+                center: new google.maps.LatLng(34.02979, -118.211726),
+                zoom: 15,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            var map = new google.maps.Map(document.getElementById("map-canvas"),
+                mapOptions);
+
+            var geocoder = new google.maps.Geocoder();
+            geocoder.geocode({ 'address': 'Boyle Heights, Los Angeles, CA' }, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    map.setCenter(results[0].geometry.location);
+                    var marker = new google.maps.Marker({
+                        map: map,
+                        position: results[0].geometry.location
+                    });
+                } else {
+                    alert("Geocode was not successful for the following reason: " + status);
+                }
+            });
+        });
+    </script>
 
 </body>
 </html>
