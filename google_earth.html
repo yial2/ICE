@@ -55,13 +55,13 @@ limitations under the License.
       }
       ge.getFeatures().appendChild(object);
       var la = ge.createLookAt('');
-      la.set(37.77976, -122.418307, 25, ge.ALTITUDE_RELATIVE_TO_GROUND, 
-             180, 60, 500);
+      la.set(34.041458, -118.201942, 25, ge.ALTITUDE_RELATIVE_TO_GROUND, 
+             180, 60, 100);
       ge.getView().setAbstractView(la);         
     }
     
     // fetch the KML
-    var url = 'Building1.kmz';
+    var url = 'https://github.com/yial2/ICE/blob/master/Building1.kmz?raw=true';
     google.earth.fetchKml(ge, url, finished);
     
     //ge.getPluginVersion().toString();
