@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Bootstrap, from Twitter</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+    <style type="text/css">
+        #map-canvas { height: 400px; }
+    </style>
+</head>
+
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="brand" href="#">Project name</a>
+                <div class="nav-collapse collapse">
+                    <ul class="nav">
+                        <li class="active"><a href="#">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Action</a></li>
+                                <li><a href="#">Another action</a></li>
+                                <li><a href="#">Something else here</a></li>
+                                <li class="divider"></li>
+                                <li class="nav-header">Nav header</li>
+                                <li><a href="#">Separated link</a></li>
+                                <li><a href="#">One more separated link</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <form class="navbar-form pull-right">
+                        <input class="span2" type="text" placeholder="Email">
+                        <input class="span2" type="password" placeholder="Password">
+                        <button type="submit" class="btn">Sign in</button>
+                    </form>
+                </div>
+                <!--/.nav-collapse -->
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Main hero unit for a primary marketing message or call to action -->
+        <div class="hero-unit">
+            <h1>Health Happens Here!</h1>
+            <p>Finding health within your neighborhood.</p>
+            <p><a href="#" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+            <div id="map-canvas">
+            </div>
+            <div class="form-inline">
+                <label for="txtSnapshot">Enter a name of this snapshot:</label>
+                <input type="text" class="input-large" id="txtSnapshot" placeholder="enter a name of this snap shot"/>
+                <button type="button" class="btn btn-primary" id="btnSnapshot">Snapshot!</button>
+            </div>
+            <div id="snapshots">
+            </div>
+        </div>
+
+        <!-- Example row of columns -->
+        <div class="row">
+            <div class="span4">
+                <h2>Activities</h2>
+                <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+                <p><a class="btn" href="#">View details &raquo;</a></p>
+            </div>
+            <div class="span4">
+                <h2>Nutrition</h2>
+                <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+                <p><a class="btn" href="#">View details &raquo;</a></p>
+            </div>
+            <div class="span4">
+                <h2>Resources</h2>
+                <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+                <p><a class="btn" href="#">View details &raquo;</a></p>
+            </div>
+        </div>
+
+        <hr>
+
+        <footer>
+            <p>&copy; Company 2013</p>
+        </footer>
+
+    </div>
+    <!-- /container -->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?key=AIzaSyAunBsjlTytY7pHdfo9w7cit4E659ODpAQ&sensor=true"></script>
+    <script type="text/javascript">
+        var $TXT_SNAPSHOT;
+        $(function () {
+            var boyleHeight = new google.maps.LatLng(34.02979, -118.211726);
+
+            var panoramaOptions = {
+                position: boyleHeight,
+                pov: {
+                    heading: 270,
+                    pitch: 0
+                },
+                visible: true
+            };
+            var panorama = new google.maps.StreetViewPanorama(document.getElementById('map-canvas'), panoramaOptions);
+
+            google.maps.event.addListener(panorama, 'pano_changed', function () {
+                try {
+                    console.log("Pano Id: " + panorama.getPano());
+                    console.log("---------------------------------------");
+                } catch (e) { }
+            });
+
+            google.maps.event.addListener(panorama, 'links_changed', function () {
+                /*
+                var linksTable = document.getElementById('links_table');
+                while(linksTable.hasChildNodes()) {
+                    linksTable.removeChild(linksTable.lastChild);
+                };
+                */
+                var links = panorama.getLinks();
+
+                var i = 0;
+                for (i = 0; i < links.length; i++) {
+                    try {
+                        console.log("links: " + links[i].description);
+                        console.log("---------------------------------------");
+                    } catch (e) { }
+                }
+            });
+
+            google.maps.event.addListener(panorama, 'position_changed', function () {
+                try {
+                    console.log("position: " + panorama.getPosition());
+                    console.log("---------------------------------------");
+                } catch (e) { }
+            });
+
+            google.maps.event.addListener(panorama, 'pov_changed', function () {
+                try {
+                    console.log("heading: " + panorama.getPov().heading);
+                    console.log("pitch: " + panorama.getPov().pitch);
+                    console.log("---------------------------------------");
+                } catch (e) { }
+            });
+
+            $("div#snapshots").on("click", "a", function (evt) {
+                evt.preventDefault();
+                panorama.setPano(evt.target.getAttribute("data-pano"));
+                panorama.setPov({
+                    heading: parseFloat(evt.target.getAttribute("data-pov-heading")),
+                    pitch: parseFloat(evt.target.getAttribute("data-pov-pitch"))
+                });
+            });
+
+            $("button#btnSnapshot").on("click", function (evt) {
+                var a = document.createElement("a");
+                a.setAttribute("href", "#");
+                a.setAttribute("data-pano", panorama.getPano());
+                a.setAttribute("data-pov-heading", panorama.getPov().heading);
+                a.setAttribute("data-pov-pitch", panorama.getPov().pitch);
+                if (!$TXT_SNAPSHOT) {
+                    $TXT_SNAPSHOT = $("input#txtSnapshot");
+                }
+                a.innerHTML = $TXT_SNAPSHOT.val();
+
+                document.getElementById("snapshots").appendChild(a);
+                document.getElementById("snapshots").appendChild(document.createElement("br"));
+
+            });
+        });
+    </script>
+</body>
+</html>
